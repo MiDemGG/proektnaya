@@ -1,15 +1,11 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 WORKDIR /srv
 
-# Минимальные зависимости для работы с картинками
-RUN apt-get update && apt-get install -y \
-    libglib2.0-0 \
-    libgl1 \
-    && rm -rf /var/lib/apt/lists/*
+ENV PYTHONIOENCODING=utf-8
+ENV LANG=C.UTF-8
 
-# Устанавливаем Flask, PyMuPDF, OpenCV и EasyOCR
-RUN pip install --no-cache-dir flask pymupdf opencv-python-headless easyocr
+RUN pip install --no-cache-dir flask pymupdf google-genai
 
 COPY ml.py /srv/
 

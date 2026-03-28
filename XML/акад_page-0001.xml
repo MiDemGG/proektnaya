@@ -1,0 +1,43 @@
+<Document>
+  <Header>
+    <Recipient>Ректору РУТ (МИИТ)</Recipient>
+    <RecipientName>А.А. Климову</RecipientName>
+  </Header>
+  <ApplicantInfo>
+    <StudentGroup>УВВ-311</StudentGroup>
+    <InstituteFaculty>Института Цифровых Управления и технологий</InstituteFaculty>
+    <CourseNumber>3</CourseNumber>
+    <StudyForm>очной</StudyForm>
+    <FundingBasis>бюджетной</FundingBasis>
+    <FullName>Широкова Оксана Геннадьевна</FullName>
+    <BirthYear>2005</BirthYear>
+    <Address>г. Сергиев-Посад, ул. Первомайская, д. 4, кв. 66</Address>
+    <PhoneNumber>+7(915)321-44-55</PhoneNumber>
+  </ApplicantInfo>
+  <Title>ЗАЯВЛЕНИЕ</Title>
+  <Body>
+    <Request>Прошу предоставить мне академический отпуск по медицинским показаниям с 01.09.2025 по 31.08.2026.</Request>
+    <Attachment>
+      <AttachmentType>заключение врачебной комиссии медицинской организации</AttachmentType>
+      <AttachmentNumber>488</AttachmentNumber>
+      <AttachmentDate>07.08.2025</AttachmentDate>
+    </Attachment>
+    <Acknowledgement>С Порядком предоставления академического отпуска, отпуска по беременности и родам, отпуска по уходу за ребенком до достижения им возраста трех лет обучающимся по образовательным программам среднего профессионального и высшего образования, утвержденного приказом РУТ (МИИТ) от 01.11.2022 № 878/а, ознакомлен(а).</Acknowledgement>
+  </Body>
+  <Signatures>
+    <ApplicantSignature>
+      <SignatureValue>не заполнено</SignatureValue>
+      <InitialsSurname>Широкова О.Г.</InitialsSurname>
+      <Date>31.08.25</Date>
+    </ApplicantSignature>
+  </Signatures>
+  <Approvals>
+    <ApprovalBlock>
+      <ApprovalText>Согласовано предоставление академического отпуска с 01.09.25 по 31.08.26</ApprovalText>
+      <ApproverPosition>Директор института</ApproverPosition>
+      <ApproverSignature>не заполнено</ApproverSignature>
+      <ApproverInitialsSurname>Макушенко</ApproverInitialsSurname>
+      <ApprovalDate>01.09.25</ApprovalDate>
+    </ApprovalBlock>
+  </Approvals>
+</Document>

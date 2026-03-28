@@ -1,0 +1,88 @@
+<Document>
+  <Header>
+    <Recipient>
+      <Position>Ректору РУТ (МИИТ)</Position>
+      <Name>А.А. Климову</Name>
+    </Recipient>
+  </Header>
+  <ApplicantInfo>
+    <StudentDetails>
+      <From>от студента</From>
+      <Group>
+        <Label>группы</Label>
+        <Number>УРБ-311</Number>
+        <Note>(номер учебной группы)</Note>
+      </Group>
+      <Institute>
+        <Name>Институт управления и цифровых технологий</Name>
+        <Note>(наименование академии, института или факультета)</Note>
+      </Institute>
+      <Course>
+        <Number>3</Number>
+        <Label>курса</Label>
+        <Form>очной</Form>
+        <Label>формы обучения</Label>
+        <Note>(номер)</Note>
+        <Note>(очная, очно-заочная, заочная)</Note>
+      </Course>
+      <StudyBasis>
+        <Type>бюджетной</Type>
+        <Label>основы обучения</Label>
+        <Note>(платная, бюджетная)</Note>
+      </StudyBasis>
+      <FullName>
+        <LastName>Широкова</LastName>
+        <FirstName>Оксана</FirstName>
+        <MiddleName>Геннадьевна</MiddleName>
+        <Note>(фамилия, имя, отчество)</Note>
+      </FullName>
+      <BirthInfo>
+        <Year>2005</Year>
+        <Label>года рождения,</Label>
+        <Note>(дата рождения)</Note>
+      </BirthInfo>
+      <Address>
+        <Label>адрес фактического проживания:</Label>
+        <City>г. Сергиев Посад,</City>
+        <Street>ул. Первомайская,</Street>
+        <House>97,</House>
+        <Apartment>кв. 66</Apartment>
+      </Address>
+      <ContactPhone>
+        <Label>контактный телефон</Label>
+        <Number>+7(921)431-11-22</Number>
+      </ContactPhone>
+    </StudentDetails>
+  </ApplicantInfo>
+  <Title>ЗАЯВЛЕНИЕ</Title>
+  <Body>
+    <Request>Прошу отчислить меня по собственному желанию.</Request>
+  </Body>
+  <Signatures>
+    <ApplicantSignature>
+      <SignatureImage>не заполнено</SignatureImage>
+      <SignatureLabel>(подпись)</SignatureLabel>
+      <FullName>Широкова О.Г.</FullName>
+      <FullNameLabel>(инициалы, фамилия)</FullNameLabel>
+      <Date>
+        <Label>Дата</Label>
+        <Value>05.05.26</Value>
+      </Date>
+    </ApplicantSignature>
+  </Signatures>
+  <Approvals>
+    <ApprovalBlock>
+      <Status>Согласовано</Status>
+      <Position>Директор института</Position>
+      <PositionLabel>(должность руководителя подразделения)</PositionLabel>
+      <SignatureImage>не заполнено</SignatureImage>
+      <SignatureLabel>(подпись)</SignatureLabel>
+      <FullName>Вакуленко</FullName>
+      <FullNameLabel>(инициалы, фамилия)</FullNameLabel>
+      <Date>
+        <Label>Дата</Label>
+        <Value>06.06.26</Value>
+      </Date>
+    </ApprovalBlock>
+  </Approvals>
+</Document>

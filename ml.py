@@ -1,106 +1,127 @@
 import os
-import xml.etree.ElementTree as ET
-from flask import Flask, request, jsonify
-import cv2 
-import easyocr
-import fitz  
+import fitz  # PyMuPDF
+from google import genai
+from google.genai import types
 
-app = Flask(__name__)
+API_KEY = os.environ.get("GEMINI_API_KEY")
+if not API_KEY:
+    print("❌ Ошибка: Не задан GEMINI_API_KEY!")
+    exit(1)
 
-print("Загружаю нейросеть EasyOCR. Пожалуйста, подожди...")
-# Возвращаем EasyOCR для русского и английского
-reader = easyocr.Reader(['ru', 'en'])
-print("Нейросеть успешно загружена и готова к работе!")
+# Инициализируем клиента
+client = genai.Client(api_key=API_KEY)
 
-def preprocess_image(input_path, output_path):
-    """Улучшаем картинку перед распознаванием"""
-    print("OpenCV: Начинаю улучшение качества картинки...")
-    img = cv2.imread(input_path, cv2.IMREAD_GRAYSCALE)
-    img_blur = cv2.medianBlur(img, 3)
-    thresh = cv2.adaptiveThreshold(
-        img_blur, 255, 
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-        cv2.THRESH_BINARY, 11, 2
-    )
-    cv2.imwrite(output_path, thresh)
-    print("OpenCV: Картинка успешно улучшена!")
+def process_document(file_path):
+    """Извлекает изображение из файла и подготавливает его для Gemini"""
+    if file_path.lower().endswith('.pdf'):
+        print(f"📄 Извлекаю страницу из PDF...")
+        doc = fitz.open(file_path)
+        page = doc[0]
+        pix = page.get_pixmap(dpi=150) 
+        img_data = pix.tobytes("jpeg")
+        doc.close()
+        return types.Part.from_bytes(data=img_data, mime_type="image/jpeg")
+    else:
+        print(f"🖼️ Подготавливаю изображение...")
+        with open(file_path, "rb") as f:
+            img_data = f.read()
+        mime_type = "image/png" if file_path.lower().endswith('.png') else "image/jpeg"
+        return types.Part.from_bytes(data=img_data, mime_type=mime_type)
 
-@app.route('/upload', methods=['POST'])
-def upload_image():
-    if 'file' not in request.files:
-        return jsonify({'error': 'Нет файла в запросе'}), 400
-
-    file = request.files['file']
+def extract_xml_from_image(image_part):
+    """Отправляет картинку в Gemini и просит полный XML всего документа"""
+    print("🧠 Gemini анализирует текст... (подождите)")
     
-    if file.filename == '':
-        return jsonify({'error': 'Файл не выбран'}), 400
+    prompt = """
+    Ты - эксперт по оцифровке документов. Перед тобой скан университетского заявления (содержит как печатный, так и рукописный текст).
+    Твоя задача: перенести ВЕСЬ текст с изображения в структурированный XML-формат. Ничего не пропускай.
+    
+    Сгруппируй распознанный текст по логическим блокам. Используй примерно такую структуру тегов (можешь добавлять свои, если текст не влезает в эти):
+    <Document>
+      <Header>
+        </Header>
+      <ApplicantInfo>
+        </ApplicantInfo>
+      <Title>ЗАЯВЛЕНИЕ</Title>
+      <Body>
+        </Body>
+      <Signatures>
+        </Signatures>
+      <Approvals>
+        </Approvals>
+    </Document>
+    
+    Важные правила:
+    1. Распознавай и печатный, и рукописный текст. Объединяй их так, чтобы предложения имели смысл (вставляй рукописные слова на место пропусков в печатном тексте).
+    2. Если какое-то поле на бланке не заполнено рукой студента, не выдумывай текст, оставь тег пустым или напиши "не заполнено".
+    3. Верни ТОЛЬКО чистый XML-код. Без markdown-разметки (```xml), без комментариев и лишнего текста в начале или конце.
+    """
 
-    try:
-        filename = file.filename.lower()
-        extracted_text = "" 
-
-        # --- ВЕТВКА 1: Работа с PDF ---
-        if filename.endswith('.pdf'):
-            print("Получен PDF документ...")
-            temp_pdf_path = "temp_document.pdf"
-            file.save(temp_pdf_path)
-
-            doc = fitz.open(temp_pdf_path)
-            
-            for page_num, page in enumerate(doc):
-                print(f"Обрабатываю страницу {page_num + 1}...")
-                pix = page.get_pixmap()
-                
-                temp_page_path = f"temp_page_{page_num}.jpg"
-                enhanced_page_path = f"enhanced_page_{page_num}.jpg"
-                
-                pix.save(temp_page_path)
-                
-                # 1. Сначала улучшаем
-                preprocess_image(temp_page_path, enhanced_page_path)
-
-                # 2. Затем читаем с помощью EasyOCR (передаем улучшенную картинку)
-                result = reader.readtext(enhanced_page_path, detail=0)
-                extracted_text += " ".join(result) + "\n"
-
-                for p in [temp_page_path, enhanced_page_path]:
-                    if os.path.exists(p): os.remove(p)
-            
-            doc.close()
-            if os.path.exists(temp_pdf_path): os.remove(temp_pdf_path)
-
-        # --- ВЕТВКА 2: Работа с Картинкой ---
-        else:
-            print("Получена фотография...")
-            temp_path = "temp_image.jpg"
-            enhanced_path = "enhanced_image.jpg"
-            file.save(temp_path)
-
-            # 1. Сначала улучшаем
-            preprocess_image(temp_path, enhanced_path)
-
-            # 2. Читаем с помощью EasyOCR
-            result = reader.readtext(enhanced_path, detail=0)
-            extracted_text = " ".join(result)
-
-            for p in [temp_path, enhanced_path]:
-                if os.path.exists(p): os.remove(p)
-
-        print("Распознанный текст:\n", extracted_text)
-
-        root = ET.Element("Document")
-        text_element = ET.SubElement(root, "ExtractedText")
-        text_element.text = extracted_text if extracted_text.strip() else "Текст не распознан"
-
-        tree = ET.ElementTree(root)
-        ET.indent(tree, space="  ", level=0) 
-        tree.write("output.xml", encoding="utf-8", xml_declaration=True)
-
-        return jsonify({'message': 'Файл успешно обработан OpenCV + EasyOCR!', 'text_length': len(extracted_text)}), 200
-
-    except Exception as e:
-        return jsonify({'error': f'Произошла ошибка: {str(e)}'}), 500
+    response = client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=[prompt, image_part],
+        config=types.GenerateContentConfig(
+            temperature=0.0,
+        )
+    )
+    
+    return response.text.strip()
 
 if __name__ == '__main__':
-    print("Сервер запущен! Жду фото/PDF на порту 7777...")
-    app.run(host='0.0.0.0', port=7777)
+    # Настройки папок
+    INPUT_DIR = "БЛАНК"
+    OUTPUT_DIR = "XML"
+    
+    # Проверяем, существует ли папка с исходниками
+    if not os.path.exists(INPUT_DIR):
+        print(f"❌ Папка '{INPUT_DIR}' не найдена! Создайте ее рядом со скриптом и положите туда сканы.")
+        exit()
+        
+    # Создаем папку для готовых XML (если ее нет)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    
+    # Ищем файлы (jpg, png, pdf)
+    valid_extensions = ('.jpg', '.jpeg', '.png', '.pdf')
+    files_to_process = [f for f in os.listdir(INPUT_DIR) if f.lower().endswith(valid_extensions)]
+    
+    if not files_to_process:
+        print(f"⚠️ В папке '{INPUT_DIR}' нет подходящих файлов для обработки.")
+        exit()
+        
+    print(f"📂 Найдено файлов для обработки: {len(files_to_process)}")
+    print("="*50)
+
+    # Запускаем цикл по всем найденным файлам
+    for filename in files_to_process:
+        file_path = os.path.join(INPUT_DIR, filename)
+        
+        # Получаем имя файла без расширения (например: "акад_page-0001")
+        base_name = os.path.splitext(filename)[0]
+        output_path = os.path.join(OUTPUT_DIR, f"{base_name}.xml")
+        
+        print(f"▶️ В работе: {filename}")
+        
+        try:
+            image_part = process_document(file_path)
+            xml_result = extract_xml_from_image(image_part)
+            
+            # Очистка от возможных markdown-тегов (```xml ... ```)
+            if xml_result.startswith("```xml"):
+                xml_result = xml_result.replace("```xml\n", "", 1).replace("```", "")
+            elif xml_result.startswith("```"):
+                xml_result = xml_result.replace("```\n", "", 1).replace("```", "")
+                
+            xml_result = xml_result.strip()
+                
+            # Сохраняем в папку XML
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(xml_result)
+                
+            print(f"✅ Сохранено: {output_path}")
+            print("-" * 50)
+
+        except Exception as e:
+            print(f"❌ Ошибка при обработке {filename}: {e}")
+            print("-" * 50)
+            
+    print("🎉 Обработка всех бланков завершена!")

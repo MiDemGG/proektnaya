@@ -1,0 +1,62 @@
+<Document>
+  <Header>
+    <Recipient>
+      <Position>Ректору РУТ (МИИТ)</Position>
+      <Name>А.А. Климову</Name>
+    </Recipient>
+  </Header>
+  <ApplicantInfo>
+    <ApplicantDetails>
+      <From>от Широковой Оксаны Геннадьевны</From>
+      <BirthDate>31.12.2005 года рождения</BirthDate>
+      <Address>адрес фактического проживания: г. Семилук, пос. ул. Первомайская, д. 4, кв. 66</Address>
+      <Phone>контактный телефон: +7(916)321-44-55</Phone>
+      <Email>e-mail: balola@gmail.com</Email>
+      <SNILS>СНИЛС: 123-456-790 12</SNILS>
+      <StudyGroup>учебная группа: УПВ-311</StudyGroup>
+    </ApplicantDetails>
+  </ApplicantInfo>
+  <Title>ЗАЯВЛЕНИЕ</Title>
+  <Body>
+    <Request>Прошу Вас рассмотреть мою кандидатуру на предмет возможности перехода с платного обучения на бесплатное по специальности (направлению подготовки):</Request>
+    <Specialty>
+      <CodeAndName>09.03.01 Информатика и Вычислительная техника</CodeAndName>
+      <FormOfStudy>очной формы обучения</FormOfStudy>
+      <Specialization>специализация (профиль/программа): Вычислительные системы и сети</Specialization>
+    </Specialty>
+    <EducationLevel>
+      <Statement>Указанный в настоящем заявлении уровень образования получаю впервые:</Statement>
+      <Answer>да</Answer>
+    </EducationLevel>
+    <Date>
+      <Day>«01»</Day>
+      <Month>апреля</Month>
+      <Year>2025 г.</Year>
+    </Date>
+  </Body>
+  <Signatures>
+    <ApplicantSignature>
+      <SignatureMark>не заполнено</SignatureMark>
+      <Label>(подпись)</Label>
+    </ApplicantSignature>
+  </Signatures>
+  <Approvals>
+    <AdditionalInfo>Дополнительная информация (заполняется сотрудниками университета):</AdditionalInfo>
+    <AcademicDebt>
+      <Statement>1. Студент не имеет академических задолженностей.</Statement>
+      <Position>Директор института/академии</Position>
+      <SignatureMark>не заполнено</SignatureMark>
+      <SignatureLabel>(подпись)</SignatureLabel>
+      <SignatureDecipherment>Мануленко</SignatureDecipherment>
+      <DeciphermentLabel>(расшифровка подписи)</DeciphermentLabel>
+    </AcademicDebt>
+    <PaymentDebt>
+      <Statement>2. Студент не имеет задолженностей по оплате.</Statement>
+      <Position>Начальник ОПО ПФУ</Position>
+      <SignatureMark>не заполнено</SignatureMark>
+      <SignatureLabel>(подпись)</SignatureLabel>
+      <SignatureDecipherment>Мануленко</SignatureDecipherment>
+      <DeciphermentLabel>(расшифровка подписи)</DeciphermentLabel>
+    </PaymentDebt>
+  </Approvals>
+</Document>

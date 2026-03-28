@@ -1,0 +1,54 @@
+<Document>
+  <Header>
+    <Recipient>Ректору РУТ (МИИТ)</Recipient>
+    <RecipientName>А.А. Климову</RecipientName>
+  </Header>
+  <ApplicantInfo>
+    <From>от Широковой Оксаны Геннадьевны</From>
+    <DateOfBirth>31.12.2005</DateOfBirth>
+    <ContactPhone>+7(915) 821-44-55</ContactPhone>
+    <Email>balda@gmail.com</Email>
+    <AdditionalInfo type="изменение фамилии">2</AdditionalInfo>
+  </ApplicantInfo>
+  <Title>ЗАЯВЛЕНИЕ</Title>
+  <Body>
+    <Request>Прошу подготовить для выдачи документ об образовании и (или) о квалификации, хранящийся в моём личном деле.</Request>
+    <EducationalInstitution>
+      <Label>Наименование колледжа/деканата/института/академии</Label>
+      <Value>Институт Управления и цифровых технологий</Value>
+    </EducationalInstitution>
+    <StudyForm>
+      <Label>Форма обучения (нужное подчеркнуть)</Label>
+      <Value>очная/очно-заочная/ заочная</Value>
+    </StudyForm>
+    <AdmissionYear>
+      <Label>Год поступления</Label>
+      <Value>2023</Value>
+    </AdmissionYear>
+    <GraduationYear>
+      <Label>Год отчисления</Label>
+      <Value>2026</Value>
+    </GraduationYear>
+    <DocumentDeliveryMethod>
+      <Label>Документы выдать (нужное подчеркнуть)</Label>
+      <Method>на руки</Method>
+      <PostalAddress>
+        <Label>услугами почтовой связи по адресу</Label>
+        <Value>balda@gmail.com (указать почтовый адрес с индексом)</Value>
+      </PostalAddress>
+    </DocumentDeliveryMethod>
+    <AdditionalDocuments>
+      <Label>Дополнительные документы (которые заявитель считает нужным предоставить)</Label>
+      <DocumentItem>копия свидетельства об изменении личных данных (при необходимости)</DocumentItem>
+      <DocumentItem>доверенность (при уполномочивании представлять интересы перед третьими лицами)</DocumentItem>
+    </AdditionalDocuments>
+    <Consent>Даю согласие на обработку моих персональных данных, содержащихся в заявлении и прилагаемых к нему документах.</Consent>
+  </Body>
+  <Signatures>
+    <Date>Дата 01.03.26</Date>
+    <ApplicantSignature>Подпись не заполнено</ApplicantSignature>
+  </Signatures>
+  <Approvals>
+    <!-- не заполнено -->
+  </Approvals>
+</Document>
